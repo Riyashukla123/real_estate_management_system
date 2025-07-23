@@ -60,6 +60,7 @@ export default function Properties() {
     Maintanance: card.Maintanance||""
 
     };
+    
   }
 
 
@@ -106,9 +107,10 @@ const handleView =(card, index)=>{
   setViewProperty(true);
 }
 
-
+console.log({viewIndex});
 
   return (
+    
     <div className="flex flex-col relative w-full px-5">
       {viewProperty && (
         <div className='flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[60vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5'>
