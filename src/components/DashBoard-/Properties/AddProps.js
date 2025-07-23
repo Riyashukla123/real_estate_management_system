@@ -1,86 +1,7 @@
-import React, { useState } from 'react';
-import { FiSearch } from 'react-icons/fi';
-import PropertyList from './PropertyList.js';
+import React from "react";
 import { FiX } from "react-icons/fi";
-import Data from '../../Data.js'
-import { FaMapMarkerAlt } from "react-icons/fa";
-
-export default function Properties() {
-  const [properties, setProperties] = useState(Data);
-  const [viewProperty, setViewProperty] = useState(false);
-  const [addProperty, setAddProperty] = useState(false);
-  const [newProperty, setNewProperty] = useState({
-    imgUrl:"",
-    newPropertyame :"",
-    type:"", 
-    line1: "", 
-    city:"", 
-    state:"", 
-    year:"", 
-    description:"", 
-    value:"", 
-    status:"" ,
-    area:"",
-    rooms:"",
-    floors:"",
-    flats:"",
-    rent:""
-  });
-  const [viewProp, setViewProp] = useState({
-    ImgUrl:"",
-    Name :"",
-    Type:"",  
-    City:"", 
-    Description:"", 
-    Rent:"", 
-    Status:"" ,
-    Assets:"",
-    Maintanance:""
-
-  })
-
-  
-  const [viewIndex, setViewIndex] = useState(null);
-
-  const [propType, setPropType] = useState('');
-
-  const [editMode, setEditMode] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
-
-  function cardToViewForm(card){
-    return{
-    ImgUrl: card.imageUrl,
-    Name: card.ModelName || "",
-    Type: card.Type||"",  
-    City:card.Location||"", 
-    Description: card.Description||"", 
-    Rent:card.Rent||"", 
-    Status:card.Status||"" ,
-    Assets: card.Assets||"",
-    Maintanance: card.Maintanance||""
-
-    };
-    
-  }
-
-
-  function mapCardToForm(card) {
-  return {
-    imgUrl:card.imageUrl,
-    name: card.ModelName || "",
-    type: "", // not stored in card
-    line1: "",
-    city: card.Location || "",
-    state: "",
-    year: "",
-    description: card.Description || "",
-    value: card.Rent || "",
-    status: card.Status || "",
-    area: "", rooms: "", floors: "", flats: ""
-  };
-}
-
-function mapFormToCard(form, oldCard) {
+export default function AddProps({newProperty, setNewProperty,setAddProperty, propType, setPropType, editMode, setEditMode, editIndex, setEditIndex, properties, setProperties}){
+  function mapFormToCard(form, oldCard) {
   return {
     key: oldCard?.key || Date.now(),
     imageUrl: form.imageUrl || oldCard?.imageUrl || "", // use fallback
@@ -91,119 +12,36 @@ function mapFormToCard(form, oldCard) {
     Description: form.description
   };
 }
-
-const handleEdit = (card, index) => {
-  setNewProperty(mapCardToForm(card)); // convert to form format
-  setEditMode(true);
-  setEditIndex(index);
-  setViewIndex(null);
-  setAddProperty(true); // open modal
-};
-
-const handleView =(card, index)=>{
-  setViewProp(cardToViewForm(card));
-  
-  setViewIndex(index);
-  setViewProperty(true);
-}
-
-console.log({viewIndex});
-
-  return (
-    
-    <div className="flex flex-col relative w-full px-5">
-      {viewProperty && (
-        <div className='flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[60vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5'>
-          <div className="px-12 sticky top-0 z-10 pt-8">
-             <div className="flex flex-row justify-between">
-              <p className="font-archivo text-[1.5vw]">Property Profile</p>
-              <button className="text-xl text-red-800 " onClick={() => {
-                 setViewProperty(false);
-                 
-                 setViewIndex(null);
-              }}>
-                <FiX />
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-row gap-10 px-12 w-full h-full pb-8">
-            <div className="flex flex-col gap-4 p-4 w-1/2 bg-gray-100 border-none rounded-[5px]">
-              <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[18vw]"/>
-              </div>
-              <div className="flex flex-row gap-4">
-                <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
-              </div>
-              <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
-              </div>
-              <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
-              </div>
-              </div>
-            </div>
-            <div className="w-1/2 flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
-                <p className="font-archivo text-[1.5vw]">{viewProp.Name}</p>
-                <div className="flex flex-row  items-center gap-1">
-                  <FaMapMarkerAlt className="bg-transparent text-gray-400 w-3 h-3"/>
-                  <p className="text-gray-400 text-[0.8vw]">{viewProp.City}</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2.5">
-                <p className="text-[1.1vw] font-semibold">Property Details</p>
-                <p className="text-[0.9vw] text-gray-400 max-w-[25vw]">
-                 {viewProp.Description}
-                </p>
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-row justify-between w-[25vw]">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-[1vw] font-semibold">Assets</p>
-                    <p className="text-[0.9vw] text-gray-400"> {viewProp.Assets}</p>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <p className="text-[1vw] font-semibold">Rent</p>
-                    <p className="text-[0.9vw] text-gray-400">{viewProp.Rent} </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-row justify-between w-[25vw]">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-[1vw] font-semibold">Tenants</p>
-                    <p className="text-[0.9vw] text-gray-400"> {viewProp.Type}</p>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <p className="text-[1vw] font-semibold">Status</p>
-                    <p className="text-[0.9vw] text-gray-400">{viewProp.Status}</p>
-                  </div>
-                </div>
-                
-
-              </div>
-
-              
-              <div className="flex flex-col gap-1">
-                <p className="text-[1vw] font-semibold">Maintanance Status</p>
-                <p className="text-[0.9vw] text-gray-400">{viewProp.Maintanance}</p>
-             </div>
-            
-            </div>
-
-          </div>
-
-        </div>)}
-      {addProperty && (
-        <form className="flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[50vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl">
+  return(
+    <form className="flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[50vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl">
       
           <div className="px-4 sticky top-0 bg-white z-10 py-4">
             <div className="flex flex-row justify-between">
               <p className="font-archivo text-xl">Add Property</p>
               <button className="text-xl text-gray-600 " onClick={() => {
-                setAddProperty(false);
+                if(editMode){
+            
+                  setNewProperty({
+                Name :"",
+                Type:"", 
+                line1: "", 
+                city:"", 
+                state:"", 
+                year:"", 
+                description:"", 
+                value:"", 
+                status:"" ,
+                Area:"",
+                rooms:"",
+                floors:"",
+                flats:"",
+              });
+                setEditMode(false);
+                setEditIndex(null);
+              }
+               setAddProperty(false);
+              
+                
               }}>
                 <FiX />
               </button>
@@ -224,7 +62,7 @@ console.log({viewIndex});
               <select value={newProperty.type} className="border border-gray-300 rounded-[5px] text-gray-500 text-sm shadow px-2 focus:outline-none h-[25px] max-w-[300px]" onChange={(e) => {
                 setPropType(e.target.value);
                 setNewProperty({ ...newProperty, type: e.target.value});
-                console.log(propType);
+                
                 }}>
                 <option value="">Select property type</option>
                 <option value="Land">Land</option>
@@ -311,19 +149,19 @@ console.log({viewIndex});
                 }
                 setNewProperty({
                 Name :"",
-    Type:"", 
-    line1: "", 
-    city:"", 
-    state:"", 
-    year:"", 
-    description:"", 
-    value:"", 
-    status:"" ,
-    Area:"",
-    rooms:"",
-    floors:"",
-    flats:"",
-  });
+                Type:"", 
+                line1: "", 
+                city:"", 
+                state:"", 
+                year:"", 
+                description:"", 
+                value:"", 
+                status:"" ,
+                Area:"",
+                rooms:"",
+                floors:"",
+                flats:"",
+              });
                 setEditMode(false);
                 setEditIndex(null);
                 setAddProperty(false);
@@ -333,33 +171,6 @@ console.log({viewIndex});
             </button>
           </div>
         </form>
-      )}
 
-      
-      <div className="nav flex flex-row justify-between w-full pb-[20px] pt-6">
-        <p className="text-[25px] text-black font-archivo tracking-tight leading-none">Properties</p>
-        <div className="flex flex-row gap-[2px]">
-          <input type="search" placeholder="Search" className="px-2 border rounded-lg focus:outline-none" />
-          <FiSearch className="bg-[#FFF1DE] text-xl text-semibold h-6 w-6 p-1 border rounded-lg" />
-        </div>
-      </div>
-
-      <div className="flex flex-col w-full">
-        <button
-          type="button"
-          className="border-[3px] ml-auto rounded-[5px] text-lg px-2 w-[170px] h-[35px] bg-white hover:bg-[#FFF7ED] border-[#FFE4B8]  text-[#FFE4B8] shadow-lg"
-          onClick={() => {
-            setAddProperty(true);
-          }}
-        >
-          Add property
-        </button>
-      </div>
-
-      <div>
-        <PropertyList properties={properties} onEdit={handleEdit} onView={handleView} />
-
-      </div>
-    </div>
   );
-}
+};

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Menu from './Menu.js';
 import Overview from './Overview.js';
-import Properties from './Properties.js';
+import Properties from './Properties/Properties.js';
 import Account from './Account.js';
 export default function DashBoard(){
   const [isProperty, setIsProperty] = useState('Overview');

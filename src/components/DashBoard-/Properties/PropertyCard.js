@@ -1,5 +1,5 @@
 import React from 'react'
-import P1 from '../../Images/property1.jpg'
+import P1 from '../../../Images/property1.jpg'
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
 export default function PropertyCard({property, onEdit, onView}){

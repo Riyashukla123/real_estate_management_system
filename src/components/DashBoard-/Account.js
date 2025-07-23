@@ -44,6 +44,7 @@ export default function Account(){
     }
       await login(updatedUser); 
       alert(data.message);
+      
       navigate('/dashboard');
     } else {
       alert("Invalid email or password");
