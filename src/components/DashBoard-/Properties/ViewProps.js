@@ -10,7 +10,6 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
               <p className="font-archivo text-[1.5vw]">Property Profile</p>
               <button className="text-xl text-red-800 " onClick={() => {
                  setViewProperty(false);
-                 
                  setViewIndex(null);
               }}>
                 <FiX />
