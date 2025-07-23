@@ -14,7 +14,10 @@ const Data = [
     Rent: 240,
     Status: "Rent",
     Type: "Building",
-    Value:"$1500"
+    Value:"$1500",
+    Description:"Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo .",
+    Assets:"5 apartments",
+    Maintanance:"plumbing"
   },
   {
     key: 2,
@@ -24,7 +27,10 @@ const Data = [
     Rent: 310,
     Status: "Not Rent",
     Type: "Land",
-    Value:"$1000"
+    Value:"$1000",
+    Description:"Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo .",
+    Assets:"5 apartments",
+    Maintanance:"plumbing"
   },
   {
     key: 3,
@@ -34,7 +40,10 @@ const Data = [
     Rent: 280,
     Status: "Rent",
      Type: "Apartment",
-     Value:"$7530"
+     Value:"$7530",
+     Description:"Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo ",
+     Assets:"5 apartments",
+    Maintanance:"plumbing"
   },
   {
     key: 4,
@@ -44,7 +53,10 @@ const Data = [
     Rent: 220,
     Status: "Not Rent",
      Type: "Building",
-     Value:"$9000"
+     Value:"$9000",
+     Description:"Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo",
+     Assets:"5 apartments",
+    Maintanance:"plumbing"
   },
   {
     key: 5,
@@ -54,7 +66,10 @@ const Data = [
     Rent: 200,
     Status: "Rent",
     Type: "House",
-    Value:"$900"
+    Value:"$900",
+    Description:"Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo",
+    Maintanance:"plumbing"
+
   }
 ];
 

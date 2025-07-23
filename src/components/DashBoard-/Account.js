@@ -1,10 +1,80 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import proImg from "../../Images/profile.jpg"
+import { AuthContext } from '../AuthContext';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 export default function Account(){
+  const {user, login}= useContext(AuthContext);
+  const navigate = useNavigate();
+  const name= user.name.split(" ");
   const defaultProfile= 
-    {imgUrl:proImg, firstName:"Riya", lastName:"Shukla", email:"riya70077@gmail.com", currentPassword:"Mute@123", newPassword:"Mute@123", mobileNumber:"9305172116"};
+    {
+      imgUrl:proImg, 
+      firstName:name[0], 
+      lastName:name[1], 
+      email:user.email, 
+      currentPassword:"", 
+      newPassword:"", 
+      mobileNumber:user.phoneNo
+    };
+
   const [profile, setProfile] = useState(defaultProfile);
+
+  const handleUpdate = async (e) => {
+  e.preventDefault(); 
+
+  const UpdatedUser = {
+    name: profile.firstName + " " + profile.lastName,
+    email: profile.email,
+    phoneNo: profile.mobileNumber,
+    curr_password: profile.currentPassword,
+    new_password: profile.newPassword
+  };
+
+  try {
+    const { data } = await axios.put(`http://localhost:5000/update_user/${user._id}`, UpdatedUser);
+    
+    if (data) {
+      const updatedUser ={
+      _id: user._id,
+      name: UpdatedUser.name,
+      email: UpdatedUser.email,
+      phoneNo: UpdatedUser.phoneNo,
+      password: UpdatedUser.new_password || user.password
+    }
+      await login(updatedUser); 
+      alert(data.message);
+      navigate('/dashboard');
+    } else {
+      alert("Invalid email or password");
+    }
+  } catch (error) {
+  console.error("Update error:", error);
+
+  if (error.response) {
+    // The request was made and server responded with a status code
+    if (error.response.status === 404) {
+      alert("User not found");
+    } else if (error.response.status === 500) {
+      alert("Server error: " + error.response.data.message);
+    }
+    else if(error.response.status === 401){
+      alert( error.response.data.message);
+    } else {
+      alert("Error: " + error.response.data.message);
+    }
+  } else if (error.request) {
+    // The request was made but no response received
+    alert("No response from server. Please try again later.");
+  } else {
+    // Something else happened
+    alert("Error: " + error.message);
+  }
+}
+};
+
   return(
+
    <div className="flex flex-col w-[70vw] max-w-[1100px] m-4 p-12 bg-white shadow-lg border-none relative rounded-[5px] gap-6">
     <div>
       <p className="text-[25px] text-black font-archivo tracking-tight leading-none">Account</p>
@@ -94,7 +164,9 @@ export default function Account(){
     </div>
 
     <div className="absolute bottom-6 right-12 border-[3px] rounded-[5px] text-lg px-2 w-[135px] h-[35px] bg-white hover:bg-[#FFF7ED] border-[#FFE4B8]  text-[#FFE4B8] shadow-lg">
-      <button onClick={(e) => setProfile(profile)}>Save Changes</button>
+      <button onClick={(e)=>{
+        handleUpdate(e);
+      }}>Save Changes</button>
     </div>
 
 

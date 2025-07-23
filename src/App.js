@@ -5,11 +5,13 @@ import HomePage from './components/HomePage.js';
 import LogInPage from './components/LogInPage.js';
 import NavBar from './components/NavBar.js';
 import DashBoard from './components/DashBoard-/DashBoard.js';
+import { AuthProvider } from './components/AuthContext';
 
 
 function App() {
   return (
-    <Router>
+    <AuthProvider>
+      <Router>
       <div className="flex relative">
         <NavBar />
         <div className="absolute top-[70px] w-full">
@@ -21,7 +23,9 @@ function App() {
           </Routes>
         </div>
       </div>
-    </Router>
+      </Router>
+    </AuthProvider>
+    
   );
 }
 
