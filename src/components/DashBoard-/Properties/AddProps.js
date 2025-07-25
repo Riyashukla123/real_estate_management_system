@@ -1,17 +1,59 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiX } from "react-icons/fi";
-export default function AddProps({newProperty, setNewProperty,setAddProperty, propType, setPropType, editMode, setEditMode, editIndex, setEditIndex, properties, setProperties}){
-  function mapFormToCard(form, oldCard) {
-  return {
-    key: oldCard?.key || Date.now(),
-    imageUrl: form.imageUrl || oldCard?.imageUrl || "", // use fallback
-    ModelName: form.name || "",
-    Location: form.city || "",
-    Rent: form.value || "",
-    Status: form.status || "",
-    Description: form.description
-  };
-}
+import {PropertiesContext} from './PropertiesContext';
+import {AuthContext} from '../../AuthContext';
+import axios from 'axios';
+
+
+export default function AddProps({newProperty, setNewProperty,setAddProperty, propType, setPropType, editMode, setEditMode, editIndex, setEditIndex}){
+  const {properties, setProperties}= useContext(PropertiesContext);
+  const {user}= useContext(AuthContext);
+  
+
+const handleAdd = async (e) => {
+  e.preventDefault();
+  
+  try {
+    const { data } = await axios.post(`http://localhost:5000/${user._id}/add_property`, newProperty);
+    if (data.success) {
+      setProperties([...properties, data.property]);
+      setNewProperty({
+        name: "",
+        type: "",
+        line1: "",
+        city: "",
+        state: "",
+        year: "",
+        description: "",
+        value: "",
+        status: "",
+        area: "",
+        rooms: "",
+        floors: "",
+        flats: "",
+        rent: ""
+      });
+      setEditMode(false);
+      setEditIndex(null);
+      setAddProperty(false);
+    }
+  } catch (error) {
+    console.log(error);
+    console.log(error.response);
+    alert(error.response?.data?.message || "Something went wrong");
+  }
+
+
+    // console.log(newProperty);
+
+    // if (editMode) {
+    //   const updated = [...properties];
+    //   updated[editIndex] = mapFormToCard(newProperty, properties[editIndex]);
+    //   setProperties(updated);
+    // } 
+   
+              
+};
   return(
     <form className="flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[50vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl">
       
@@ -21,9 +63,9 @@ export default function AddProps({newProperty, setNewProperty,setAddProperty, pr
               <button className="text-xl text-gray-600 " onClick={() => {
                 if(editMode){
             
-                  setNewProperty({
-                Name :"",
-                Type:"", 
+                setNewProperty({
+                name :"",
+                type:"", 
                 line1: "", 
                 city:"", 
                 state:"", 
@@ -31,10 +73,11 @@ export default function AddProps({newProperty, setNewProperty,setAddProperty, pr
                 description:"", 
                 value:"", 
                 status:"" ,
-                Area:"",
+                area:"",
                 rooms:"",
                 floors:"",
                 flats:"",
+                rent:""
               });
                 setEditMode(false);
                 setEditIndex(null);
@@ -125,6 +168,12 @@ export default function AddProps({newProperty, setNewProperty,setAddProperty, pr
             </div>
 
             <div className="flex flex-col py-2 px-4 gap-1">
+              <p className="text-[11px] text-gray-600">Rent</p>
+              <input type="number" value={newProperty.rent} placeholder="value" className="border border-gray-300 rounded-[5px] shadow px-2 focus:outline-none h-[25px] max-w-[300px]" onChange={(e) => setNewProperty({ ...newProperty, rent: e.target.value })}/>
+              <div className="w-full h-[0.5px] mt-2 bg-gray-300"></div>
+            </div>
+
+            <div className="flex flex-col py-2 px-4 gap-1">
               <p className="text-[11px] text-gray-600">Status</p>
               <input type="text" value={newProperty.status} placeholder="status" className="border border-gray-300 rounded-[5px] shadow px-2 focus:outline-none h-[25px] max-w-[300px]" onChange={(e) => setNewProperty({ ...newProperty, status: e.target.value })} />
               <div className="w-full h-[0.5px] mt-2 bg-gray-300"></div>
@@ -137,37 +186,10 @@ export default function AddProps({newProperty, setNewProperty,setAddProperty, pr
               type="submit"
               className="border-[3px] rounded-[5px] text-lg px-2 w-[170px] h-[35px] bg-white hover:bg-[#FFF7ED] border-[#FFE4B8]  text-[#FFE4B8] shadow-lg"
               onClick={(e) => {
-                e.preventDefault();
-                console.log(newProperty);
-                if (editMode) {
-                  const updated = [...properties];
-                  updated[editIndex] = mapFormToCard(newProperty, properties[editIndex]);
-                  setProperties(updated);
-                } else {
-                  const newCard = mapFormToCard(newProperty);
-                setProperties([...properties, newCard]);
-                }
-                setNewProperty({
-                Name :"",
-                Type:"", 
-                line1: "", 
-                city:"", 
-                state:"", 
-                year:"", 
-                description:"", 
-                value:"", 
-                status:"" ,
-                Area:"",
-                rooms:"",
-                floors:"",
-                flats:"",
-              });
-                setEditMode(false);
-                setEditIndex(null);
-                setAddProperty(false);
+                !editMode? handleAdd(e): e.preventDefault();
               }}
             >
-              Add property
+              {!editMode? 'Add property': 'Update property'}
             </button>
           </div>
         </form>

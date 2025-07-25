@@ -23,8 +23,9 @@ export default function LogInBox( {isLogin, setIsLogin}){
 
       if (data) {
 
-        login(data); 
+        await login(data); 
         alert("Login successful");
+        
         setEmail('');
         setPassword('');
         console.log(user);

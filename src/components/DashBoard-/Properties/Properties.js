@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import PropertyList from './PropertyList.js';
-import Data from '../../../Data.js';
+
 import ViewProps from "./ViewProps";
 import AddProps from "./AddProps";
 
 
 export default function Properties() {
   
-  const [properties, setProperties] = useState(Data);
+  
   const [addProperty, setAddProperty] = useState(false);
   const [newProperty, setNewProperty] = useState({
-    imgUrl:"",
-    newPropertyame :"",
+  
+    name :"",
     type:"", 
     line1: "", 
     city:"", 
@@ -49,14 +49,14 @@ export default function Properties() {
   function cardToViewForm(card){
     return{
     ImgUrl: card.imageUrl,
-    Name: card.ModelName || "",
-    Type: card.Type||"",  
-    City:card.Location||"", 
-    Description: card.Description||"", 
-    Rent:card.Rent||"", 
-    Status:card.Status||"" ,
-    Assets: card.Assets||"",
-    Maintanance: card.Maintanance||""
+    Name: card.name || "",
+    Type: card.type||"",  
+    City:card.city||"", 
+    Description: card.description||"", 
+    Rent:card.rentent||"", 
+    Status:card.status||"" ,
+    Assets: card.assets||"",
+    Maintanance: card.maintanance||""
 
     };
     
@@ -66,16 +66,19 @@ export default function Properties() {
   function mapCardToForm(card) {
   return {
     imgUrl:card.imageUrl,
-    name: card.ModelName || "",
-    type: "", // not stored in card
-    line1: "",
-    city: card.Location || "",
-    state: "",
-    year: "",
-    description: card.Description || "",
-    value: card.Rent || "",
-    status: card.Status || "",
-    area: "", rooms: "", floors: "", flats: ""
+    name: card.name || "",
+    type: card.type||"", // not stored in card
+    line1: card.line1||"",
+    city: card.city || "",
+    state: card.state||"",
+    year: card.year||"",
+    description: card.description || "",
+    value: card.rent || "",
+    status: card.status || "",
+    area: card.area||"", 
+    rooms: card.room||"", 
+    floors: card.floors|| "", 
+    flats: card.flats||""
   };
 }
 
@@ -104,7 +107,7 @@ console.log(viewIndex);
       }
 
       {
-        addProperty && <AddProps newProperty={newProperty} setNewProperty={setNewProperty} setAddProperty={setAddProperty} propType={propType} setPropType={setPropType} editMode={editMode} setEditMode={setEditMode} editIndex={editIndex} setEditIndex={setEditIndex} properties={properties} setProperties={setProperties} />
+        addProperty && <AddProps newProperty={newProperty} setNewProperty={setNewProperty} setAddProperty={setAddProperty} propType={propType} setPropType={setPropType} editMode={editMode} setEditMode={setEditMode} editIndex={editIndex} setEditIndex={setEditIndex}  />
       }
 
       
@@ -130,7 +133,7 @@ console.log(viewIndex);
       </div>
 
       <div>
-        <PropertyList properties={properties} onEdit={handleEdit} onView={handleView} />
+        <PropertyList  onEdit={handleEdit} onView={handleView} />
 
       </div>
     </div>
