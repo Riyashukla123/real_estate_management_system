@@ -3,7 +3,7 @@ import P1 from '../../../Images/property1.jpg'
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import img1 from '../../../Images/property1.jpg';
 
-export default function PropertyCard({property, onEdit, onView}){
+export default function PropertyCard({property, onEdit, onView, onDelete}){
  
   return(
     <div className='w-full  h-[150px] bg-white mr-4 my-4 border-none rounded-[15px] flex flex-row justify-between p-1.5 pr-2 hover:shadow-lg 'onClick={()=>{
@@ -28,7 +28,7 @@ export default function PropertyCard({property, onEdit, onView}){
         </div>
     
           <button className="" onClick={onEdit}><FiEdit className/> </button>
-          <button className=""><FiTrash2/></button>
+          <button className="" onClick={onDelete}><FiTrash2/></button>
       
       
 

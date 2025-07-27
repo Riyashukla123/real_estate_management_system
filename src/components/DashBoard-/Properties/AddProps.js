@@ -5,55 +5,74 @@ import {AuthContext} from '../../AuthContext';
 import axios from 'axios';
 
 
-export default function AddProps({newProperty, setNewProperty,setAddProperty, propType, setPropType, editMode, setEditMode, editIndex, setEditIndex}){
+export default function AddProps({newProperty, setNewProperty,setAddProperty, propType, setPropType, editMode, setEditMode, editIndex, setEditIndex})
+{
   const {properties, setProperties}= useContext(PropertiesContext);
-  const {user}= useContext(AuthContext);
+  const {user, setUser}= useContext(AuthContext);
   
 
 const handleAdd = async (e) => {
   e.preventDefault();
-  
+
   try {
-    const { data } = await axios.post(`http://localhost:5000/${user._id}/add_property`, newProperty);
-    if (data.success) {
-      setProperties([...properties, data.property]);
-      setNewProperty({
-        name: "",
-        type: "",
-        line1: "",
-        city: "",
-        state: "",
-        year: "",
-        description: "",
-        value: "",
-        status: "",
-        area: "",
-        rooms: "",
-        floors: "",
-        flats: "",
-        rent: ""
-      });
-      setEditMode(false);
-      setEditIndex(null);
-      setAddProperty(false);
+    if (!editMode) {
+      
+      const { data } = await axios.post(
+        `http://localhost:5000/${user._id}/add_property`,
+        newProperty
+      );
+
+      if (data.success) {
+        setProperties([...properties, data.property]);
+        const updatedUserProperties= user.properties;
+        updatedUserProperties.push(data.property._id);
+
+        setUser((prev) => ({ ...prev, properties: updatedUserProperties }));
+        alert("property added");
+      }
+    } else {
+      
+      const prop_id = properties[editIndex]._id;
+      const res = await axios.put(
+        `http://localhost:5000/${user._id}/${prop_id}/update_prop`,
+        newProperty
+      );
+
+      if (res.data.success) {
+        const updated = [...properties];
+        updated[editIndex] = res.data.data;
+        setProperties(updated);
+        alert("property updates");
+      }
     }
+
+    
+    setNewProperty({
+      name: "",
+      type: "",
+      line1: "",
+      city: "",
+      state: "",
+      year: "",
+      description: "",
+      value: "",
+      status: "",
+      area: "",
+      rooms: "",
+      floors: "",
+      flats: "",
+      rent: ""
+    });
+    setEditMode(false);
+    setEditIndex(null);
+    setAddProperty(false);
+
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
-    alert(error.response?.data?.message || "Something went wrong");
+    console.log("Error in handleAdd:", error);
+    alert(error?.response?.data?.message || "Something went wrong");
   }
-
-
-    // console.log(newProperty);
-
-    // if (editMode) {
-    //   const updated = [...properties];
-    //   updated[editIndex] = mapFormToCard(newProperty, properties[editIndex]);
-    //   setProperties(updated);
-    // } 
-   
-              
 };
+
   return(
     <form className="flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[50vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl">
       
@@ -186,7 +205,7 @@ const handleAdd = async (e) => {
               type="submit"
               className="border-[3px] rounded-[5px] text-lg px-2 w-[170px] h-[35px] bg-white hover:bg-[#FFF7ED] border-[#FFE4B8]  text-[#FFE4B8] shadow-lg"
               onClick={(e) => {
-                !editMode? handleAdd(e): e.preventDefault();
+                handleAdd(e)
               }}
             >
               {!editMode? 'Add property': 'Update property'}

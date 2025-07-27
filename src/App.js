@@ -5,7 +5,7 @@ import HomePage from './components/HomePage.js';
 import LogInPage from './components/LogInPage.js';
 import NavBar from './components/NavBar.js';
 import DashBoard from './components/DashBoard-/DashBoard.js';
-;
+import Properties from './components/DashBoard-/Properties/Properties';
 
 
 function App() {
@@ -20,6 +20,8 @@ function App() {
               <Route path="/dashboard" element={<DashBoard />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LogInPage />} />
+              <Route path="/properties" element={<Properties />} />
+
             </Routes>
             </div>
          </div>

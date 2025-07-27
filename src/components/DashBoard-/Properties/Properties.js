@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import PropertyList from './PropertyList.js';
-
 import ViewProps from "./ViewProps";
 import AddProps from "./AddProps";
+import axios from 'axios';
+import {PropertiesContext} from './PropertiesContext.js';
+import { AuthContext } from '../../AuthContext.js';
+
+
 
 
 export default function Properties() {
-  
-  
+
+
   const [addProperty, setAddProperty] = useState(false);
   const [newProperty, setNewProperty] = useState({
   
@@ -28,13 +32,13 @@ export default function Properties() {
     rent:""
   });
  
+ 
   const [propType, setPropType] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [viewProperty, setViewProperty] = useState(false);
   const [viewIndex, setViewIndex] = useState(null);
   const [viewProp, setViewProp] = useState({
-      ImgUrl:"",
       Name :"",
       Type:"",  
       City:"", 
@@ -46,50 +50,82 @@ export default function Properties() {
   
   });
 
-  function cardToViewForm(card){
-    return{
-    ImgUrl: card.imageUrl,
+ function cardToViewForm(card){
+  if (!card) return {};
+  return {
+    ImgUrl: card.imageUrl || "",
     Name: card.name || "",
-    Type: card.type||"",  
-    City:card.city||"", 
-    Description: card.description||"", 
-    Rent:card.rentent||"", 
-    Status:card.status||"" ,
-    Assets: card.assets||"",
-    Maintanance: card.maintanance||""
+    Type: card.type || "",  
+    City: card.city || "", 
+    Description: card.description || "", 
+    Rent: card.rent || "", 
+    Status: card.status || "",
+    Assets: card.assets || "",
+    Maintanance: card.maintanance || ""
+  };
+}
 
-    };
-    
-  }
 
 
   function mapCardToForm(card) {
   return {
     imgUrl:card.imageUrl,
     name: card.name || "",
-    type: card.type||"", // not stored in card
+    type: card.type||"", 
     line1: card.line1||"",
     city: card.city || "",
     state: card.state||"",
     year: card.year||"",
     description: card.description || "",
-    value: card.rent || "",
+    value: card.value || "",
     status: card.status || "",
     area: card.area||"", 
     rooms: card.room||"", 
     floors: card.floors|| "", 
-    flats: card.flats||""
+    flats: card.flats||"",
+    rent: card.rent||""
   };
 }
+const {properties, setProperties}= useContext(PropertiesContext);
 
+  const {user, setUser}= useContext(AuthContext);
 
 
 const handleEdit = (card, index) => {
-  setNewProperty(mapCardToForm(card)); // convert to form format
+  
+  setNewProperty(mapCardToForm(card));
   setEditMode(true);
   setEditIndex(index);
-  setAddProperty(true); // open modal
+  setAddProperty(true);
+ 
 };
+
+const handleDelete = async (index) => {
+  try {
+     setViewProperty(false);
+    const prop_id = properties[index]._id;
+    const res = await axios.delete(
+      `http://localhost:5000/${user._id}/${prop_id}/delete_prop`
+    );
+
+    if (res.data.success) {
+      const updatedUserProperties = user.properties.filter(
+        (p) => p !== prop_id
+      );
+
+      setUser((prev) => ({ ...prev, properties: updatedUserProperties }));
+
+      const newProp = properties.filter(prop => prop._id !== prop_id);
+      setProperties(newProp);
+     
+    }
+  } catch (error) {
+    console.log("Error in deleting property:", error);
+    alert(error?.response?.data?.message || "Something went wrong");
+  }
+};
+
+
 
 const handleView =(card, index)=>{
   setViewProp(cardToViewForm(card));
@@ -98,6 +134,31 @@ const handleView =(card, index)=>{
 }
 
 console.log(viewIndex);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:5000/${user._id}/user_property`);
+        setProperties(res.data.data);
+        setError('');
+      } catch (err) {
+        console.error(err);
+        setError(err.response?.data?.message || 'Error fetching properties');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user._id) {
+      fetchProperties();
+    }
+  }, [user._id, setProperties]
+);
+if (loading) return <p>Loading properties...</p>;
+if (error) return <p>Error: {error}</p>;
 
   return (
     
@@ -133,7 +194,7 @@ console.log(viewIndex);
       </div>
 
       <div>
-        <PropertyList  onEdit={handleEdit} onView={handleView} />
+        <PropertyList  onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />
 
       </div>
     </div>

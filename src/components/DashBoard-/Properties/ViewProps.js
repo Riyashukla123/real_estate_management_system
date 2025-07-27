@@ -1,13 +1,18 @@
 import React from 'react';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
+import img from "../../../Images/property1.jpg"
+
 export default function ViewProps({viewProp, setViewProp,  setViewProperty, setViewIndex}){
-  console.log(setViewProperty);
+ 
+
   return(
-    <div className='flex flex-col fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[60vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5'>
+    <div className='flex flex-col overflow-auto fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[60vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5'>
           <div className="px-12 sticky top-0 z-10 pt-8">
             <div className="flex flex-row justify-between">
-              <p className="font-archivo text-[1.5vw]">Property Profile</p>
+              <div className="w-full bg-white">
+              <p className="font-archivo text-[1.5vw] bg-white">Property Profile</p>
+              </div>
               <button className="text-xl text-red-800 " onClick={() => {
                  setViewProperty(false);
                  setViewIndex(null);
@@ -19,17 +24,17 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
           <div className="flex flex-row gap-10 px-12 w-full h-full pb-8">
             <div className="flex flex-col gap-4 p-4 w-1/2 bg-gray-100 border-none rounded-[5px]">
               <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[18vw]"/>
+                <img src={img} alt='img' className="object-cover w-full h-[18vw]"/>
               </div>
               <div className="flex flex-row gap-4">
                 <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               <div className=" ">
-                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               </div>
             </div>
