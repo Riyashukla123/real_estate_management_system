@@ -11,6 +11,9 @@ module.exports = {
         slab: ['"Alfa Slab One"', 'cursive'],
         archivo: ['"Archivo Black"', 'sans-serif']
       },
+      boxShadow: {
+        'custom-glow': '0 40px 30px rgba(0, 0, 0, 0.4)',  
+      },
     },
   },
   plugins: [],
