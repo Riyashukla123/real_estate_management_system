@@ -1,8 +1,9 @@
-import React from 'react';
+import React , {useContext}from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { FaBuilding, FaCoins, FaChartLine, FaHome } from 'react-icons/fa';
-import Properties from '../../Data';
+import {PropertiesContext} from "./Properties/PropertiesContext.js"
 export default function Overview({isProperty, setIsProperty, active, setActive }){
+  const {properties}= useContext(PropertiesContext);
   const activities=[
     "Maple villas Apartments purchased in Pune Maharashtra.",
     "Green Residency Flat in Banglore are rented to Mr. Desai on june 30th.",
@@ -134,19 +135,19 @@ export default function Overview({isProperty, setIsProperty, active, setActive }
               </tr>
             </thead>
             <tbody className="bg-white pt-4 gap-2">
-              {Properties.map((property, index)=>(
+              {properties.map((property, index)=>(
                 <tr key={index} className='h-[3vw]'>
-                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.ModelName}</td>
+                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.name}</td>
                   <td className="text-[1.3vw] px-4 py-[1vw] text-center">
-                    {property.Type === "Building" && <p className=" w-[8.5vw] bg-red-100 text-red-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.Type}</p>}
+                    {property.type === "Building" && <p className=" w-[8.5vw] bg-red-100 text-red-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
 
-                    {property.Type === "Apartment" && <p className="w-[8.5vw] bg-blue-100 text-blue-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.Type}</p>}
+                    {property.type === "Apartment" && <p className="w-[8.5vw] bg-blue-100 text-blue-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
 
-                    {property.Type === "House" && <p className="w-[8.5vw] bg-green-100 text-green-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.Type}</p>}
+                    {property.type === "House" && <p className="w-[8.5vw] bg-green-100 text-green-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
 
-                    {property.Type === "Land" && <p className="w-[8.5vw] bg-[#FFF7ED] text-[#FFE4B8] px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.Type}</p>}
+                    {property.type === "Land" && <p className="w-[8.5vw] bg-[#FFF7ED] text-[#FFE4B8] px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
                   </td>
-                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.Value}</td>
+                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.value}</td>
                 </tr>
               ))}
             </tbody>

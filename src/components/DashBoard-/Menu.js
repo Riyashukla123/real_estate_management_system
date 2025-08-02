@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link }  from 'react-router-dom';
+
 
 export default function Menu({isProperty, setIsProperty, active, setActive }) {
  const getButtonClass = (name) => {
@@ -27,14 +27,12 @@ export default function Menu({isProperty, setIsProperty, active, setActive }) {
         setActive('Account');
       }}>Account</button>
 
-      <button className={getButtonClass('Settings')} onClick={() => {
-        setIsProperty('Settings');
-        setActive('Settings');
-      }}>Settings</button>
+      <button className={getButtonClass('LogOut')} onClick={() => {
+        setIsProperty('LogOut');
+        setActive('LogOut');
+      }}>LogOut</button>
 
-      <Link to="/">
-      <button className={getButtonClass('LogOut')} >LogOut</button>
-      </Link>
+      
     </div>
   );
 }
