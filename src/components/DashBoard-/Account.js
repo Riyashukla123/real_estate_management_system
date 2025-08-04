@@ -3,14 +3,14 @@ import { AuthContext } from '../AuthContext';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 export default function Account(){
-  const {user, login}= useContext(AuthContext);
+  const {user,login}= useContext(AuthContext);
   const navigate = useNavigate();
   const name= user.name.split(" ");
 
   const [selectedImage, setSelectedImage] = useState(null);
   const defaultProfile= 
     {
-      imgUrl:"", 
+      imgUrl:user.profileImage || "", 
       firstName:name[0], 
       lastName:name[1], 
       email:user.email, 
@@ -88,16 +88,18 @@ const handleUploadImage = async () => {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
-    if (res.status === 200) {
-      alert("Image uploaded");
-      setProfile({ ...profile, imgUrl: `http://localhost:5000/${user._id}/image` });
-      setSelectedImage(null);
+   if (res.status === 200) {
+  alert("Image uploaded");
 
-      // Clear the input field
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
+  
+  const newUser = { ...user, profileImage: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` };
+
+  login(newUser); // update global context
+  setProfile({ ...profile, imgUrl: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` }); // update local state
+  setSelectedImage(null);
+
+  if (fileInputRef.current) fileInputRef.current.value = '';
+}
   } catch (err) {
     alert("Failed to upload image");
     console.error(err);
