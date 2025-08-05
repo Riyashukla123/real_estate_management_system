@@ -17,7 +17,7 @@ function Fav() {
     return () => {
       clearInterval(interval);
     };
-  }, [activeImage])
+  }, [activeImage, imageMap.length])
 
   return (
     <div className="flex flex-col" >
