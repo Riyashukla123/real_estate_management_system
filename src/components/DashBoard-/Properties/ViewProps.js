@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
-import img from "../../../Images/property1.jpg"
 
 export default function ViewProps({viewProp, setViewProp,  setViewProperty, setViewIndex}){
  
@@ -24,17 +23,17 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
           <div className="flex flex-row gap-10 px-12 w-full h-full pb-8">
             <div className="flex flex-col gap-4 p-4 w-1/2 bg-gray-100 border-none rounded-[5px]">
               <div className=" ">
-                <img src={img} alt='img' className="object-cover w-full h-[18vw]"/>
+                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[18vw]"/>
               </div>
               <div className="flex flex-row gap-4">
                 <div className=" ">
-                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               <div className=" ">
-                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               <div className=" ">
-                <img src={img} alt='img' className="object-cover w-full h-[8vw]"/>
+                <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[8vw]"/>
               </div>
               </div>
             </div>
