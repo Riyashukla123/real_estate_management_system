@@ -16,7 +16,7 @@ export default function LogInBox( {isLogin, setIsLogin}){
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/login_user', {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login_user`, {
         email,
         password,
       });
@@ -52,7 +52,7 @@ export default function LogInBox( {isLogin, setIsLogin}){
       return;
     }
     try {
-      const { data } = await axios.post('http://localhost:5000/signup_user', {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/signup_user`, {
       name,
       email,
       phoneNo,

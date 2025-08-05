@@ -32,7 +32,7 @@ export default function Account(){
   };
 
   try {
-    const { data } = await axios.put(`http://localhost:5000/update_user/${user._id}`, UpdatedUser);
+    const { data } = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/update_user/${user._id}`, UpdatedUser);
     
     if (data) {
       const updatedUser ={

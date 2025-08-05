@@ -18,7 +18,7 @@ const handleAdd = async (e) => {
     if (!editMode) {
       
       const { data } = await axios.post(
-        `http://localhost:5000/${user._id}/add_property`,
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/add_property`,
         newProperty
       );
 
@@ -34,7 +34,7 @@ const handleAdd = async (e) => {
       
       const prop_id = properties[editIndex]._id;
       const res = await axios.put(
-        `http://localhost:5000/${user._id}/${prop_id}/update_prop`,
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,
         newProperty
       );
 
