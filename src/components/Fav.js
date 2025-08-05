@@ -23,7 +23,7 @@ function Fav() {
     <div className="flex flex-col" >
       <div className="w-full h-[500px] relative rounded-[15px]  shadow-xl">
         
-        <div className=" flex z-30 flex-row absolute top-5 left-5 gap-4 text-white z-10">
+        <div className=" flex z-30 flex-row absolute top-5 left-5 gap-4 text-white ">
 
 
           <div className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-white text-white hover:bg-white hover:text-black cursor-pointer">

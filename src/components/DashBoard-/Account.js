@@ -1,15 +1,16 @@
-import React, {useState, useContext} from 'react'
-import proImg from "../../Images/profile.jpg"
+import React, {useState, useContext, useRef} from 'react'
 import { AuthContext } from '../AuthContext';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 export default function Account(){
-  const {user, login}= useContext(AuthContext);
+  const {user,login}= useContext(AuthContext);
   const navigate = useNavigate();
   const name= user.name.split(" ");
+
+  const [selectedImage, setSelectedImage] = useState(null);
   const defaultProfile= 
     {
-      imgUrl:proImg, 
+      imgUrl:user.profileImage || "", 
       firstName:name[0], 
       lastName:name[1], 
       email:user.email, 
@@ -74,6 +75,38 @@ export default function Account(){
 }
 };
 
+const fileInputRef = useRef();
+
+const handleUploadImage = async () => {
+  if (!selectedImage || !user?._id) return;
+
+  const formData = new FormData();
+  formData.append('image', selectedImage);
+
+  try {
+    const res = await axios.put(`http://localhost:5000/${user._id}/upload-image`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+   if (res.status === 200) {
+  alert("Image uploaded");
+
+  
+  const newUser = { ...user, profileImage: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` };
+
+  login(newUser); // update global context
+  setProfile({ ...profile, imgUrl: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` }); // update local state
+  setSelectedImage(null);
+
+  if (fileInputRef.current) fileInputRef.current.value = '';
+}
+  } catch (err) {
+    alert("Failed to upload image");
+    console.error(err);
+  }
+};
+
+
   return(
 
    <div className="flex flex-col w-[70vw] max-w-[1100px] m-4 p-12 bg-white shadow-lg border-none relative rounded-[5px] gap-6">
@@ -94,9 +127,38 @@ export default function Account(){
        
       </div>
       <div className="flex flex-row gap-1 justify-center items-center">
-        <button className="text-[12px] border border-gray-200  h-[22px] px-[8px] rounded-[5px] hover:bg-gray-200"> upload new picture</button>
-        <button className="text-[12px] border border-gray-200  h-[22px] px-[6px] bg-gray-200 rounded-[5px] hover:bg-white" onClick={(e)=>{setProfile({...profile, imgUrl: {}})
-        }}>Delete</button>
+        <input
+  type="file"
+  accept="image/*"
+  placeholder="upload new picture"
+  ref={fileInputRef} 
+  className="text-[12px] border border-gray-200 h-[22px] px-[8px] rounded-[5px] hover:bg-gray-200"
+  onChange={(e) => {
+   
+    setSelectedImage(e.target.files[0]);
+   
+  }}
+/>
+ {selectedImage? <button
+  onClick={handleUploadImage}
+  className="text-[12px] border border-gray-200  h-[22px] px-[6px] bg-gray-200 rounded-[5px] hover:bg-white"
+>
+  Upload
+</button>
+:
+<button className="text-[12px] border border-gray-200  h-[22px] px-[6px] bg-gray-200 rounded-[5px] hover:bg-white" onClick={async () => {
+  try {
+    await axios.delete(`http://localhost:5000/${user._id}/delete-image`);
+    setProfile({ ...profile, imgUrl: "" });
+    setSelectedImage(null);
+    alert("Profile image deleted");
+  } catch (err) {
+    console.error("Failed to delete image:", err);
+    alert("Failed to delete image");
+  }
+}}
+>Delete</button>}
+        
       </div>
     </div>
 

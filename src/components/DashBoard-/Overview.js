@@ -2,8 +2,10 @@ import React , {useContext}from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { FaBuilding, FaCoins, FaChartLine, FaHome } from 'react-icons/fa';
 import {PropertiesContext} from "./Properties/PropertiesContext.js"
+import {AuthContext} from "../AuthContext.js";
 export default function Overview({isProperty, setIsProperty, active, setActive }){
   const {properties}= useContext(PropertiesContext);
+  const {user}=useContext(AuthContext);
   const activities=[
     "Maple villas Apartments purchased in Pune Maharashtra.",
     "Green Residency Flat in Banglore are rented to Mr. Desai on june 30th.",
@@ -59,7 +61,7 @@ export default function Overview({isProperty, setIsProperty, active, setActive }
                 </div>
                 <div className="flex flex-col justify-center">
                   <p className=" text-[1.3vw] text-gray-500">Properties owned</p>
-                  <p className="text-[1.5vw] font-semibold">6</p>
+                  <p className="text-[1.5vw] font-semibold">{user.properties.length}</p>
                 </div>
                 
               </div>
