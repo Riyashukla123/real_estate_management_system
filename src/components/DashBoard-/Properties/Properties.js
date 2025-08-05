@@ -15,7 +15,7 @@ export default function Properties() {
 
   const [addProperty, setAddProperty] = useState(false);
   const [newProperty, setNewProperty] = useState({
-  
+    imgUrl:"",
     name :"",
     type:"", 
     line1: "", 
@@ -39,6 +39,7 @@ export default function Properties() {
   const [viewProperty, setViewProperty] = useState(false);
   const [viewIndex, setViewIndex] = useState(null);
   const [viewProp, setViewProp] = useState({
+      ImgUrl:"",
       Name :"",
       Type:"",  
       City:"", 
@@ -105,7 +106,11 @@ const handleDelete = async (index) => {
      setViewProperty(false);
     const prop_id = properties[index]._id;
     const res = await axios.delete(
+<<<<<<< HEAD
       `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/delete_prop`
+=======
+      `http://REACT_APP_BACKEND_URL/${user._id}/${prop_id}/delete_prop`
+>>>>>>> c7f81a7 (ima)
     );
 
     if (res.data.success) {
@@ -141,7 +146,11 @@ console.log(viewIndex);
     const fetchProperties = async () => {
       try {
         setLoading(true);
+<<<<<<< HEAD
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${user._id}/user_property`);
+=======
+        const res = await axios.get(`http://REACT_APP_BACKEND_URL/${user._id}/user_property`);
+>>>>>>> c7f81a7 (ima)
         setProperties(res.data.data);
         setError('');
       } catch (err) {
