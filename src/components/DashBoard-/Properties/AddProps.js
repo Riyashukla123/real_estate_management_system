@@ -15,18 +15,24 @@ const handleAdd = async (e) => {
   e.preventDefault();
 
   try {
+    const formData = new FormData();
+    for (const key in newProperty) {
+      if (newProperty[key]) {
+        formData.append(key === "imgUrl" ? "image" : key, newProperty[key]);
+      }
+    }
+
     if (!editMode) {
       
       const { data } = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/${user._id}/add_property`,
-        newProperty
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (data.success) {
         setProperties([...properties, data.property]);
-        const updatedUserProperties= user.properties;
-        updatedUserProperties.push(data.property._id);
-
+        const updatedUserProperties = [...user.properties, data.property._id];
         setUser((prev) => ({ ...prev, properties: updatedUserProperties }));
         alert("property added");
       }
@@ -34,10 +40,10 @@ const handleAdd = async (e) => {
       
       const prop_id = properties[editIndex]._id;
       const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,
-        newProperty
-      );
 
+
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,
+      );
       if (res.data.success) {
         const updated = [...properties];
         updated[editIndex] = res.data.data;
@@ -48,6 +54,7 @@ const handleAdd = async (e) => {
 
     
     setNewProperty({
+      imgUrl:null,
       name: "",
       type: "",
       line1: "",
@@ -83,6 +90,7 @@ const handleAdd = async (e) => {
                 if(editMode){
             
                 setNewProperty({
+                imgUrl:"",
                 name :"",
                 type:"", 
                 line1: "", 
@@ -118,6 +126,18 @@ const handleAdd = async (e) => {
               <input type="text" placeholder="name" value={newProperty.name} className="border h-[25px] max-w-[300px] border-gray-300 rounded-[5px] shadow px-2 focus:outline-none" onChange={(e) => setNewProperty({ ...newProperty, name: e.target.value })}/>
               <div className="w-full h-[0.5px] mt-2 bg-gray-300"></div>
             </div>
+
+            <div className="flex flex-col px-4 py-2 gap-1">
+              <p className="text-[11px] text-gray-600">Property Image</p>
+              <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewProperty({ ...newProperty, imgUrl: e.target.files[0] })}
+              className="max-w-[300px]"
+              />
+              <div className="w-full h-[0.5px] mt-2 bg-gray-300"></div>
+            </div>
+
 
             <div className="flex flex-col px-4 py-2 gap-1"> 
               <p className="text-[11px] text-gray-600">Property Type</p>

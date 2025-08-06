@@ -84,7 +84,7 @@ const handleUploadImage = async () => {
   formData.append('image', selectedImage);
 
   try {
-    const res = await axios.put(`http://localhost:5000/${user._id}/upload-image`, formData, {
+    const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/${user._id}/upload-image`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
@@ -92,10 +92,10 @@ const handleUploadImage = async () => {
   alert("Image uploaded");
 
   
-  const newUser = { ...user, profileImage: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` };
+  const newUser = { ...user, profileImage: `${process.env.REACT_APP_BACKEND_URL}/${user._id}/image?timestamp=${Date.now()}` };
 
   login(newUser); // update global context
-  setProfile({ ...profile, imgUrl: `http://localhost:5000/${user._id}/image?timestamp=${Date.now()}` }); // update local state
+  setProfile({ ...profile, imgUrl: `${process.env.REACT_APP_BACKEND_URL}/${user._id}/image?timestamp=${Date.now()}` }); // update local state
   setSelectedImage(null);
 
   if (fileInputRef.current) fileInputRef.current.value = '';
@@ -148,7 +148,7 @@ const handleUploadImage = async () => {
 :
 <button className="text-[12px] border border-gray-200  h-[22px] px-[6px] bg-gray-200 rounded-[5px] hover:bg-white" onClick={async () => {
   try {
-    await axios.delete(`http://localhost:5000/${user._id}/delete-image`);
+    await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/${user._id}/delete-image`);
     setProfile({ ...profile, imgUrl: "" });
     setSelectedImage(null);
     alert("Profile image deleted");

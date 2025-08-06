@@ -15,7 +15,7 @@ export default function Properties() {
 
   const [addProperty, setAddProperty] = useState(false);
   const [newProperty, setNewProperty] = useState({
-  
+    imgUrl:"",
     name :"",
     type:"", 
     line1: "", 
@@ -39,6 +39,7 @@ export default function Properties() {
   const [viewProperty, setViewProperty] = useState(false);
   const [viewIndex, setViewIndex] = useState(null);
   const [viewProp, setViewProp] = useState({
+      ImgUrl:"",
       Name :"",
       Type:"",  
       City:"", 
