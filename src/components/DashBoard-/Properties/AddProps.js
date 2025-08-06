@@ -25,7 +25,7 @@ const handleAdd = async (e) => {
     if (!editMode) {
       
       const { data } = await axios.post(
-        `http://REACT_APP_BACKEND_URL/${user._id}/add_property`,
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/add_property`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -40,11 +40,10 @@ const handleAdd = async (e) => {
       
       const prop_id = properties[editIndex]._id;
       const res = await axios.put(
-        `REACT_APP_BACKEND_URL/${user._id}/${prop_id}/update_prop`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
 
+
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,
+      );
       if (res.data.success) {
         const updated = [...properties];
         updated[editIndex] = res.data.data;

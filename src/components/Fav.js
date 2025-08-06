@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import {useState} from 'react'
-import HousePic from '../main.jpg'
-import ApartmentPic from '../apartments.jpg'
-import BuildingPic from '../building.jpg'
+import HousePic from '../main.webp'
+import ApartmentPic from '../apartments.webp'
+import BuildingPic from '../building.webp'
 import { FaTwitter, FaFacebookF, FaYoutube, FaStar} from 'react-icons/fa';
 
 
@@ -17,11 +17,11 @@ function Fav() {
     return () => {
       clearInterval(interval);
     };
-  }, [activeImage])
+  }, [activeImage, imageMap.length])
 
   return (
     <div className="flex flex-col" >
-      <div className="w-full h-[500px] relative rounded-[15px]  shadow-xl">
+      <div className="w-full h-[calc(100vh-70px)] md:h-[500px] relative rounded-[15px]  shadow-xl">
         
         <div className=" flex z-30 flex-row absolute top-5 left-5 gap-4 text-white ">
 
@@ -38,7 +38,7 @@ function Fav() {
         </div>
 
 
-        <div className="absolute z-30 top-5 right-5 w-[200px] text-[12px] text-white">
+        <div className="hidden md:block absolute z-30 top-5 right-5 w-[200px] text-[12px] text-white">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
@@ -57,7 +57,7 @@ function Fav() {
            </div>
         </div>
 
-        <div className="absolute z-30 bottom-5 right-5  flex flex-row ">
+        <div className="absolute z-30 bottom-1/2 md:bottom-5 right-1/2 md:right-5 translate-x-1/2 translate-y-20 md:translate-x-0 md:translate-y-0 flex flex-row ">
           <button className={`h-[30px] w-28 px-4  bg-transparent  text-white z-10 text-sm transition-all duration-300`}>House</button>
 
           <button className={`h-[30px] w-28 px-4  bg-transparent  text-white z-10 text-sm  transition-all duration-300`}>Apartments</button>
@@ -70,9 +70,9 @@ function Fav() {
           <p className="text-white text-center">The Art of Estate Market Management.</p>
         </div>
 
-        <div className='relative rounded-2xl w-full h-[500px] overflow-x-hidden shadow-custom-glow '>
+        <div className='relative rounded-2xl w-full h-[calc(100vh-70px)] md:h-[500px] overflow-x-hidden shadow-custom-glow '>
           {imageMap.map((image, index) => {
-            return (<img src={image} alt='show-image' key={index} className={`w-full h-[500px] transition-transform duration-700 ease-in-out absolute object-cover left-0 top-0 ${activeImage === index ? 'translate-x-0 z-20' : (index + 1) % imageMap.length === activeImage ? 'translate-x-[-100%] z-10' : 'translate-x-[100%]'}`}></img>)
+            return (<img src={image} alt='show-image' key={index} className={`w-full h-[calc(100vh-70px)] md:h-[500px] transition-transform duration-700 ease-in-out absolute object-cover left-0 top-0 ${activeImage === index ? 'translate-x-0 z-20' : (index + 1) % imageMap.length === activeImage ? 'translate-x-[-100%] z-10' : 'translate-x-[100%]'}`}></img>)
           })}
           
         </div>

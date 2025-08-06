@@ -106,7 +106,7 @@ const handleDelete = async (index) => {
      setViewProperty(false);
     const prop_id = properties[index]._id;
     const res = await axios.delete(
-      `http://REACT_APP_BACKEND_URL/${user._id}/${prop_id}/delete_prop`
+      `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/delete_prop`
     );
 
     if (res.data.success) {
@@ -142,7 +142,7 @@ console.log(viewIndex);
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://REACT_APP_BACKEND_URL/${user._id}/user_property`);
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${user._id}/user_property`);
         setProperties(res.data.data);
         setError('');
       } catch (err) {
