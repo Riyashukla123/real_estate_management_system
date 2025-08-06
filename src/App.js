@@ -15,7 +15,7 @@ function App() {
         <Router>
           <div className="flex relative">
             <NavBar />
-            <div className="absolute top-[70px] w-full">
+            <div className="absolute top-0 md:top-[70px] w-full">
             <Routes>
               <Route path="/dashboard" element={<DashBoard />} />
               <Route path="/" element={<HomePage />} />
