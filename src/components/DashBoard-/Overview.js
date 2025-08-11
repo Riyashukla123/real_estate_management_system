@@ -1,11 +1,44 @@
-import React , {useContext}from 'react';
+import React , {useContext, useEffect, useState}from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { FaBuilding, FaCoins, FaChartLine, FaHome } from 'react-icons/fa';
-import {PropertiesContext} from "./Properties/PropertiesContext.js"
+import axios from "axios"
+
 import {AuthContext} from "../AuthContext.js";
 export default function Overview({isProperty, setIsProperty, active, setActive }){
-  const {properties}= useContext(PropertiesContext);
+  
   const {user}=useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [totalValue, setTotalValue]= useState(null);
+  const [newArr, setNewArr]= useState([]);
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${user._id}/overview`);
+      setTotalValue(res.data.totalValue);             // ✅ use res.data
+      const structuredProps = res.data.propertyOverview.map(item => ({
+        name: item[0],
+        value: item[1],
+        type: item[2]
+      }));
+      setNewArr(structuredProps);                     // ✅ convert array -> object
+      setError('');
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Error fetching overview data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (user && user._id) {
+    fetchData();
+  }
+}, [user, user._id]); // ✅ only depend on user._id
+
+if (loading) return <p>Loading properties...</p>;
+if (error) return <p>Error: {error}</p>;
   const activities=[
     "Maple villas Apartments purchased in Pune Maharashtra.",
     "Green Residency Flat in Banglore are rented to Mr. Desai on june 30th.",
@@ -73,7 +106,7 @@ export default function Overview({isProperty, setIsProperty, active, setActive }
                 </div>
                 <div className="flex flex-col justify-center mr-[2.5vw]">
                   <p className=" text-[1.3vw] text-gray-500">Net worth</p>
-                  <p className="text-[1.5vw] font-semibold">$156,000</p>
+                  <p className="text-[1.5vw] font-semibold">{totalValue}</p>
                 </div>
                 
               </div>
@@ -137,19 +170,19 @@ export default function Overview({isProperty, setIsProperty, active, setActive }
               </tr>
             </thead>
             <tbody className="bg-white pt-4 gap-2">
-              {properties.map((property, index)=>(
+              {newArr.map((prop, index)=>(
                 <tr key={index} className='h-[3vw]'>
-                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.name}</td>
+                  <td className="text-[1.3vw] px-6 py-[1vw]">{prop.name}</td>
                   <td className="text-[1.3vw] px-4 py-[1vw] text-center">
-                    {property.type === "Building" && <p className=" w-[8.5vw] bg-red-100 text-red-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
+                    {prop.type === "Building" && <p className=" w-[8.5vw] bg-red-100 text-red-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{prop.type}</p>}
 
-                    {property.type === "Apartment" && <p className="w-[8.5vw] bg-blue-100 text-blue-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
+                    {prop.type === "Apartment" && <p className="w-[8.5vw] bg-blue-100 text-blue-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{prop.type}</p>}
 
-                    {property.type === "House" && <p className="w-[8.5vw] bg-green-100 text-green-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
+                    {prop.type === "House" && <p className="w-[8.5vw] bg-green-100 text-green-800 px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{prop.type}</p>}
 
-                    {property.type === "Land" && <p className="w-[8.5vw] bg-[#FFF7ED] text-[#FFE4B8] px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{property.type}</p>}
+                    {prop.type === "Land" && <p className="w-[8.5vw] bg-[#FFF7ED] text-[#FFE4B8] px-[1vw] py-[0.6vw] border-none rounded-[2vw]">{prop.type}</p>}
                   </td>
-                  <td className="text-[1.3vw] px-6 py-[1vw]">{property.value}</td>
+                  <td className="text-[1.3vw] px-6 py-[1vw]">{prop.value}</td>
                 </tr>
               ))}
             </tbody>

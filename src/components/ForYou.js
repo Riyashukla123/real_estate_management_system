@@ -39,7 +39,7 @@ function ForYou() {
 
         <div className=" flex flex-col gap-5 md:flex-row justify-between w-full ">
 
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             <p className="font-bold text-xs md:text-[1.4vw]" >Contact</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Hello@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Support@lusso.com</p>
@@ -48,21 +48,21 @@ function ForYou() {
 
 
           <div className="flex flex-row gap-5 justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             <p className="font-bold text-xs md:text-[1.4vw]">Contact</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Hello@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Support@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>+1234 5678 90</p>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             <p className="font-bold text-xs md:text-[1.4vw]" >Contact</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Hello@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Support@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>+1234 5678 90</p>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             <p className="font-bold text-xs md:text-[1.4vw]">Contact</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Hello@lusso.com</p>
             <p className='text-xs md:text-[1.4vw]  text-[#B2A58A]'>Support@lusso.com</p>

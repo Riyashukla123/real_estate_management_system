@@ -38,11 +38,11 @@ function About() {
             onMouseLeave={(event) => {
               event.currentTarget.querySelector('#spin-text').classList.remove('spin-paused');
             }}>
-          <svg id="spin-text" viewBox="0 0 100 100" class="absolute inset-0 text-xl w-full h-full animate-spin" >
+          <svg id="spin-text" viewBox="0 0 100 100" className="absolute inset-0 text-xl w-full h-full animate-spin" >
             <defs>
               <path id="circlePath" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" />
             </defs>
-            <text fill="black" font-size="8.6" font-family="sans-serif">
+            <text fill="black" fontSize="8.6" fontFamily="sans-serif">
               <textPath href="#circlePath" startOffset="0">
                 play now play now play now play now play now play now 
               </textPath>

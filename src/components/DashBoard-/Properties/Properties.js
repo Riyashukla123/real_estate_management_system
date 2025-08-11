@@ -54,7 +54,7 @@ export default function Properties() {
  function cardToViewForm(card){
   if (!card) return {};
   return {
-    ImgUrl: card.imageUrl || "",
+    ImgUrl: card.imageUrl,
     Name: card.name || "",
     Type: card.type || "",  
     City: card.city || "", 
