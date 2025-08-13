@@ -17,10 +17,12 @@ const handleAdd = async (e) => {
   try {
     const formData = new FormData();
     for (const key in newProperty) {
-      if (newProperty[key]) {
-        formData.append(key === "imgUrl" ? "image" : key, newProperty[key]);
-      }
-    }
+      if (!newProperty[key]) continue;
+      if (editMode && key === 'imgUrl' && typeof newProperty[key] === 'string') continue;
+
+      formData.append(key === "imgUrl" ? "image" : key, newProperty[key]);
+}
+
 
     if (!editMode) {
       
