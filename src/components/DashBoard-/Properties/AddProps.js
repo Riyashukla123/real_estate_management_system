@@ -42,7 +42,8 @@ const handleAdd = async (e) => {
       const res = await axios.put(
 
 
-        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,
+        `${process.env.REACT_APP_BACKEND_URL}/${user._id}/${prop_id}/update_prop`,formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.data.success) {
         const updated = [...properties];

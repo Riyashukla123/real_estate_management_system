@@ -7,7 +7,7 @@ export default function PropertyList( { onEdit, onView, onDelete} ){
     <div className="flex flex-col w-full gap-4">
       {properties.map((property,index) => (
       
-        <PropertyCard key={property.key} property={property} onEdit={() => onEdit(property, index)} onView={()=>{onView(property,index)}} onDelete={()=> onDelete(index)}/>
+        <PropertyCard key={property._id} property={property} onEdit={() => onEdit(property, index)} onView={()=>{onView(property,index)}} onDelete={()=> onDelete(index)}/>
       ))}
     </div>
   );
