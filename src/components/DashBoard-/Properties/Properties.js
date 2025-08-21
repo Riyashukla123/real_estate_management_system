@@ -133,7 +133,6 @@ const handleView =(card, index)=>{
   setViewIndex(index);
   setViewProperty(true);
 }
-
 console.log(viewIndex);
 
   const [loading, setLoading] = useState(true);

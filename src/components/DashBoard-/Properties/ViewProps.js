@@ -6,8 +6,8 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
  
 
   return(
-    <div className='flex flex-col overflow-auto fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white w-[60vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5'>
-          <div className="px-12 sticky top-0 z-10 pt-8">
+    <div className='flex flex-col overflow-y-auto overflow-x-hidden fixed left-1/2 top-20 transform -translate-x-1/2 z-10 bg-white max-w-[80vw] max-h-[80vh] shadow-[0_5px_30px_rgba(0,0,0,0.3)] rounded-xl gap-5 px-12'>
+          <div className=" sticky top-0 z-10 pt-8">
             <div className="flex flex-row justify-between">
               <div className="w-full bg-white">
               <p className="font-archivo text-[1.5vw] bg-white">Property Profile</p>
@@ -20,7 +20,7 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
               </button>
             </div>
           </div>
-          <div className="flex flex-row gap-10 px-12 w-full h-full pb-8">
+          <div className="flex flex-row gap-10 pr-12 w-full h-full pb-8">
             <div className="flex flex-col gap-4 p-4 w-1/2 bg-gray-100 border-none rounded-[5px]">
               <div className=" ">
                 <img src={viewProp.ImgUrl} alt='img' className="object-cover w-full h-[18vw]"/>
@@ -46,10 +46,12 @@ export default function ViewProps({viewProp, setViewProp,  setViewProperty, setV
                 </div>
               </div>
               <div className="flex flex-col gap-2.5">
-                <p className="text-[1.1vw] font-semibold">Property Details</p>
-                <p className="text-[0.9vw] text-gray-400 max-w-[25vw]">
-                 {viewProp.Description}
+                <p className="text-[1.1vw]  font-semibold">Property Details</p>
+               
+                 <p className="inline-block  break-words whitespace-normal max-w-[30vw] text-[0.9vw] text-gray-400">
+                   {viewProp.Description}
                 </p>
+                
               </div>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-row justify-between w-[25vw]">
