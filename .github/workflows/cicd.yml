@@ -32,4 +32,4 @@ jobs:
         run: docker rm -f real-estate-management-system-container
 
       - name: Run docker Container
-        run: "docker run -d -p 81:3000 --name real-estate-management-system-container -e MONGO_URI=${{secrets.MONGO_URI}} riyashukla0803/real-estate-management-system" 
+        run: "docker run -d -p 3000:3000 --name real-estate-management-system-container -e MONGO_URI=${{secrets.MONGO_URI}} riyashukla0803/real-estate-management-system" 
